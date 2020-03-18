@@ -59,4 +59,4 @@ Nos sugerimos utilizar a [OMDb API](http://www.omdbapi.com/), você também pode
 
 ### Contato
 
-Use as [issues](https://github.com/thiagoaag/leonardotdleal-frontend-challenge/issues) ou envie um email: thiago.amarante@zup.com.br
+Use as [issues](https://github.com/thiagoaag/mr-mateus_zup-movies/issues) ou envie um email: thiago.amarante@zup.com.br

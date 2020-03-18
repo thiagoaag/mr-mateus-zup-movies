@@ -3,16 +3,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'movies/list',
-    pathMatch: 'full'
-  },
-  {
-    path: 'movies',
-    redirectTo: 'movies/list',
-    pathMatch: 'full'
-  }
+  // {
+  //   path: '',
+  //   redirectTo: 'movies/list',
+  //   pathMatch: 'full'
+  // },
+  // {
+  //   path: 'movies',
+  //   redirectTo: 'movies/list',
+  //   pathMatch: 'full'
+  // }
 ];
 
 @NgModule({

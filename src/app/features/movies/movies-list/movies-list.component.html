@@ -1,1 +1,28 @@
-<p>movies-list works!</p>
+<div class="grid">
+    <div class="row">
+        <app-input-search class="col-12 col-sm-12  col-md-12 col-lg-12 p-0" placeholder="Search movies..."
+            [formControl]="searchField">
+        </app-input-search>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-3 col-lg-2" style="padding: 8px;" *ngFor="let movie of movies">
+            <img style="width:100%;height: 100%;border-radius: 1.5%;box-shadow: 0 4px 30px 0 rgba(5, 10, 13, 0.3);"
+                [src]="movie.Poster" alt="">
+        </div>
+
+
+    </div>
+    <div *ngIf="!movies || movies.length === 0" class="empty-search">
+        <div class="row justify-content-center">
+            <div class="row">
+                <img class="banner-1" src="assets/2.Illustrations/illustration-empty-state.png">
+                <img class="banner-2" src="assets/2.Illustrations/illustration-empty-state@2x.png">
+                <img class="banner-3" src="assets/2.Illustrations/illustration-empty-state@3x.png">
+            </div>
+        </div>
+        <div class="text-center">
+            <p class="empty-search-title" style="font-size: 24px; color: #FFFFFF;">Don't know what to <br> search?</p>
+            <p class="empty-search-subtitle" style="font-size: 16px; color: #7A8C99;">Here's an offer you can't refuse</p>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,9 @@
 # Change log
 
+## v1.0.0 - 18/03/2019
+
+Incluído arquivo para o build do projeto no github utilizando ```Actions```
+
 ## v1.0.0 - 17/03/2019
 
 Inicialização do projeto:

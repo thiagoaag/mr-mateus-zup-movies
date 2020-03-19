@@ -1,6 +1,10 @@
 # Change log
 
-## v1.0.0 - 18/03/2019
+## v1.1.1 - 18/03/2019
+
+Adicionado comando ```clean``` no ```package.json``` para o build do projeto
+
+## v1.1.0 - 18/03/2019
 
 Incluído arquivo para o build do projeto no github utilizando ```Actions```
 

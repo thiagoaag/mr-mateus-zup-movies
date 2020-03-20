@@ -8,8 +8,10 @@
     "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "ng test",
+    "test:ci": "ng test --karma-config=karma-ci.conf.js --no-progress --code-coverage",
+    "test:single-run": "ng test -- --watch=false --code-coverage",
     "lint": "ng lint",
-    "build:ci": "npm run clean && npm run build:prod"
+    "build:ci": "npm run clean && ng lint && npm run build:prod && npm run test:ci"
   },
   "private": true,
   "dependencies": {
@@ -21,6 +23,7 @@
     "@angular/platform-browser": "~9.0.6",
     "@angular/platform-browser-dynamic": "~9.0.6",
     "@angular/router": "~9.0.6",
+    "bootstrap": "^3.4.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

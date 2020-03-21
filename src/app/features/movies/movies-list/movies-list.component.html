@@ -1,3 +1,6 @@
-<p>movies-list works!</p>
-<lib-zup-movies></lib-zup-movies>
-<zup-search></zup-search>
+<input [formControl]="service.searchText" autofocus>
+<div *ngFor="let movies of (service.moviesListDto$ | async)?.Search">
+    <div>
+        {{movies.Title}}
+    </div>
+</div>

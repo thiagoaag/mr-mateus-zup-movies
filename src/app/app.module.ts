@@ -5,10 +5,12 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { FeaturesModule } from "./features/features.module";
 import { CoreModule } from "./core/core.module";
+import { SearchBoxComponent } from './shared/search-box/search-box.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SearchBoxComponent
   ],
   imports: [
     BrowserModule,

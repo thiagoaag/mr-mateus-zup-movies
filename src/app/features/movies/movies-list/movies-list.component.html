@@ -1,3 +1,16 @@
-<p>movies-list works!</p>
-<lib-zup-movies></lib-zup-movies>
-<zup-search></zup-search>
+<div>
+    <img src="assets\2.Logos\logo.png" alt="Logo What's in">
+</div>
+<div>
+    <input #searchBox id="search-box" (keyup)="searchFor(searchBox.value)" autofocus/>
+</div>
+Response: {{moviesListDto.response}}
+<div *ngIf="moviesListDto.response === 'false'">
+    <img src="assets\2.Illustrations\illustration-empty-state.png" alt="Movie not found">
+    <p *ngIf="moviesListDto.error">{{moviesListDto.error}}</p>
+</div>
+<div>
+    <h1 *ngIf="loading">LOADING</h1>
+
+    <button (click)="showMore()"></button>
+</div>

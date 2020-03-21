@@ -9,6 +9,7 @@
     "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "ng test",
+    "test:ci:watch": "ng test --karma-config=karma-ci.conf.js --watch=true --no-progress --code-coverage",
     "test:ci": "ng test --karma-config=karma-ci.conf.js --no-progress --code-coverage",
     "test:single-run": "ng test -- --watch=false --code-coverage",
     "lint": "ng lint",

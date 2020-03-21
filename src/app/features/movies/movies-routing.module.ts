@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { MoviesListComponent } from "./movies-list/movies-list.component";
+import { MoviesListContainerComponent } from "./movies-list/movies-list.container";
 import { MoviesDetailsComponent } from "./movies-details/movies-details.component";
 
 const routes: Routes = [
@@ -9,7 +9,7 @@ const routes: Routes = [
     children: [
       {
         path: "list",
-        component: MoviesListComponent
+        component: MoviesListContainerComponent
       },
       {
         path: "details",

@@ -4,7 +4,8 @@ import {
   debounceTime,
   distinctUntilChanged,
   debounce,
-  takeUntil
+  takeUntil,
+  map
 } from "rxjs/operators";
 import { OmdbService } from "src/app/core/omdb/omdb.service";
 import { FormControl } from "@angular/forms";
@@ -25,7 +26,10 @@ export class MoviesListService {
       .subscribe(term => {
         this.omdbService
           .searchFor(term)
-          .pipe(takeUntil(this.destroy$))
+          .pipe(
+            takeUntil(this.destroy$),
+            map(omdbResponse => omdbResponse)
+            )
           .subscribe(omdbResponse => {
             this.moviesListDto.next(omdbResponse);
           });

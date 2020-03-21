@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  omdbApi: "http://www.omdbapi.com/?i=tt3896198&apikey=792817af"
+  OMDbAPI: "http://www.omdbapi.com/?i=tt3896198&apikey=792817af"
 };
 
 /*

@@ -9,9 +9,10 @@ import { map } from 'rxjs/operators';
 export class OmdbService {
   constructor(private http: HttpClient) {}
 
-  searchFor(term: string): Observable<OMDbDto | OMDbError> {
+  searchFor(term: string, page = 1): Observable<OMDbDto | OMDbError> {
     let params = new HttpParams();
     params = params.append("s", term);
+    params = params.append("page", page.toString());
     return this.http
     .get(environment.OMDbAPI, { params }
     )

@@ -1,0 +1,23 @@
+.container-poster {
+  height: 16.875rem;
+  background-color: #444444;
+  text-align: center;
+}
+
+.poster-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.movie-container {
+  padding: 4px;
+}
+
+.title-no-poster {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

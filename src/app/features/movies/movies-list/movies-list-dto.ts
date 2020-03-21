@@ -1,6 +1,12 @@
 export interface MoviesListDto {
-    error?: string;
+    movies?: Array<MovieDto>;
     response?: string;
-    totalResults?: string;
-    page?: number;
+    total?: string;
+    error?: string;
+}
+
+export class MovieDto {
+    title?: string;
+    imdbID?: string;
+    poster?: string;
 }

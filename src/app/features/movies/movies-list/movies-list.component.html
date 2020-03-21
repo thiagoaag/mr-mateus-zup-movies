@@ -1,6 +1,50 @@
-<input [formControl]="service.searchText" autofocus>
-<div *ngFor="let movies of (service.moviesListDto$ | async)?.Search">
-    <div>
-        {{movies.Title}}
+<div class="col-md-12">
+  <div class="row">
+    <input class="form-control" [formControl]="service.searchText" autofocus />
+  </div>
+  <div class="row" *ngIf="service.moviesListDto$ | async as moviesList">
+    <div
+      class="col-md-2 movie-container"
+      *ngFor="let movie of moviesList?.movies"
+    >
+      <div class="container-poster" style="text-align: center;color:white;">
+        <img
+          *ngIf="movie.poster && movie.poster !== 'N/A'"
+          class="poster-image"
+          [src]="movie.poster"
+          alt="Movie: {{ movie.title }}"
+        />
+        <span
+          *ngIf="!movie.poster || movie.poster === 'N/A'"
+          class="title-no-poster"
+        >
+          {{ movie.title }}
+        </span>
+        <!-- <span class="centered-poster-title">
+                {{ movie.title }}
+              </span> -->
+      </div>
+      <!-- <div class="col-md-2 col-sm-2">
+        <img
+          [src]="
+            movie.poster && movie.poster !== 'N/A'
+              ? movie.poster
+              : service.getNotFoundPoster()
+          "
+          alt="Movie: {{ movie.title }}"
+        />
+      </div> -->
     </div>
+
+    <div>
+      <button
+        class="col-md-12 "
+        (click)="service.showMore()"
+        [disabled]="!service.hasNext"
+      >
+        Show More
+      </button>
+    </div>
+  </div>
 </div>
+<div></div>

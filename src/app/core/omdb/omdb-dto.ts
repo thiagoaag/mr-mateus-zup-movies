@@ -1,7 +1,7 @@
 export class OMDbDto {
   Search?: Array<OMDbMovieDto>;
   Response?: string;
-  TotalResults?: number;
+  totalResults?: string | number;
   Error?: string;
 
 }

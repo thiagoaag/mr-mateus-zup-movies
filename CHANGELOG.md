@@ -1,5 +1,9 @@
 # Change log
 
+# v1.2.2
+[22/03/2019]
+### Correções 
+ - Criado arquivo de testes para o CI
 # v1.2.1
 [22/03/2019]
 ### Correções 

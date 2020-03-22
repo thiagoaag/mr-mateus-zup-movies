@@ -10,8 +10,7 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    SearchBoxComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,10 @@
 # Change log
 
-# v1.2.2
+# v1.2.1
+[22/03/2019]
+### Correções 
+ - Removido componente que havia sido deletado.
+# v1.2.0
 [22/03/2019]
 ### [#2](https://github.com/thiagoaag/mr-mateus-zup-movies/issues/2) 
 ### Novas funcionalidades

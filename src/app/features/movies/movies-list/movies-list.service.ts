@@ -9,8 +9,10 @@ import {
 } from "rxjs/operators";
 import { OmdbService } from "src/app/core/omdb/omdb.service";
 import { FormControl } from "@angular/forms";
-import { MoviesListDto } from "./movies-list-dto";
+import { MoviesListDto, MovieDto } from "./movies-list-dto";
 import { OMDbDto } from "src/app/core/omdb/omdb-dto";
+import { DeviceDetectorService } from "ngx-device-detector";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root"
@@ -26,8 +28,15 @@ export class MoviesListService {
     MoviesListDto
   > = this.moviesListDto.asObservable();
   private destroy$ = new Subject();
+  public isDesktop = true;
 
-  constructor(private omdbService: OmdbService) {}
+  constructor(
+    private omdbService: OmdbService,
+    private deviceDetectorService: DeviceDetectorService,
+    private router: Router
+  ) {
+    this.isDesktop = this.deviceDetectorService.isDesktop();
+  }
 
   initialize() {
     this.searchText.valueChanges
@@ -54,6 +63,7 @@ export class MoviesListService {
           const totalPages = Number(Number(moviesListMapped.total) / 10);
           this.hasNext = this.page < totalPages;
           if (
+            this.page !== 1 &&
             this.moviesListDto.getValue().movies &&
             this.moviesListDto.getValue().movies.length > 0 &&
             moviesListMapped &&
@@ -68,6 +78,10 @@ export class MoviesListService {
               movies: concatMovies
             });
           } else {
+            moviesListMapped.movies[0].favorite = true;
+            moviesListMapped.movies[2].favorite = true;
+            moviesListMapped.movies[5].favorite = true;
+            moviesListMapped.movies[9].favorite = true;
             this.moviesListDto.next(moviesListMapped);
           }
         },
@@ -94,7 +108,8 @@ export class MoviesListService {
         movies: omdbResponse.Search.map(movie => ({
           title: movie.Title,
           imdbID: movie.imdbID,
-          poster: movie.Poster
+          poster: movie.Poster,
+          year: movie.Year
         })),
         response: omdbResponse.Response,
         total: omdbResponse.totalResults,
@@ -109,7 +124,13 @@ export class MoviesListService {
     }
   }
 
-  getNotFoundPoster() {
-    return "./assets/3.Poster/poster-not-found.jpg";
+  navigateToMovieDesktop(movie: MovieDto) {
+    if (this.isDesktop) {
+      this.router.navigate(["movies/details"]);
+    }
+  }
+
+  navigateToMovie(movie: MovieDto) {
+    this.router.navigate(["movies/details"]);
   }
 }

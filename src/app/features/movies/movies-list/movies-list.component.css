@@ -1,17 +1,39 @@
+.logo img {
+  height: 32px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+.search-box {
+  padding: 4px;
+  padding-bottom: 16px;
+}
 .container-poster {
+  position: relative;
   height: 16.875rem;
   background-color: #444444;
   text-align: center;
+  border-radius: 3px;
 }
 
 .poster-image {
   position: relative;
   width: 100%;
   height: 100%;
+  border-radius: 3px;
 }
 
-.movie-container {
-  padding: 4px;
+.container-movies {
+  position: relative;
+  padding: 8px;
+  color: white;
+}
+
+.container-movies:hover {
+  cursor: pointer;
+}
+
+.container-movies:hover p.mouseover-movie-information-mobile {
+  text-decoration: underline;
 }
 
 .title-no-poster {
@@ -20,4 +42,47 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.show-more {
+  padding: 4px;
+  padding-top: 16px;
+}
+
+.mouseover-container-information {
+  position: absolute;
+  height: 16.875rem;
+  padding-left: 4px;
+  padding-right: 85px;
+  width: 12rem;
+  font-family: Helvetica;
+}
+
+.mouseover-movie-information {
+  position: absolute;
+  padding: 8px;
+  bottom: -10px;
+}
+
+.mouseover-movie-information-title {
+  font-size: 16px;
+}
+
+.mouseover-movie-information-year {
+  font-size: 12px;
+}
+
+.mouseover-actions {
+  position: relative;
+}
+.navigate-action {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 24px;
+}
+.favoritate-action {
+  position: absolute;
+  top: 8px;
+  right: 8px;
 }

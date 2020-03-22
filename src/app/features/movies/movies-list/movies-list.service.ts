@@ -78,10 +78,10 @@ export class MoviesListService {
               movies: concatMovies
             });
           } else {
-            moviesListMapped.movies[0].favorite = true;
-            moviesListMapped.movies[2].favorite = true;
-            moviesListMapped.movies[5].favorite = true;
-            moviesListMapped.movies[9].favorite = true;
+            // moviesListMapped.movies[0].favorite = true;
+            // moviesListMapped.movies[2].favorite = true;
+            // moviesListMapped.movies[5].favorite = true;
+            // moviesListMapped.movies[9].favorite = true;
             this.moviesListDto.next(moviesListMapped);
           }
         },
@@ -119,18 +119,19 @@ export class MoviesListService {
       return {
         movies: [],
         response: "false",
-        total: "0"
+        total: "0",
+        error: omdbResponse.Error
       } as MoviesListDto;
     }
   }
 
-  navigateToMovieDesktop(movie: MovieDto) {
+  deskTopNavigateToMovie(movie: MovieDto) {
     if (this.isDesktop) {
       this.router.navigate(["movies/details"]);
     }
   }
 
-  navigateToMovie(movie: MovieDto) {
+  mobileNavigateToMovie(movie: MovieDto) {
     this.router.navigate(["movies/details"]);
   }
 }

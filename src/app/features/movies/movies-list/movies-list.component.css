@@ -32,10 +32,6 @@
   cursor: pointer;
 }
 
-.container-movies:hover p.mouseover-movie-information-mobile {
-  text-decoration: underline;
-}
-
 .title-no-poster {
   margin: 0;
   position: absolute;
@@ -60,8 +56,9 @@
 
 .mouseover-movie-information {
   position: absolute;
-  padding: 8px;
-  bottom: -10px;
+  z-index: 11;
+  bottom: 4px;
+  z-index: 100;
 }
 
 .mouseover-movie-information-title {
@@ -77,9 +74,10 @@
 }
 .navigate-action {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  font-size: 24px;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  font-size: 20px;
 }
 .favoritate-action {
   position: absolute;

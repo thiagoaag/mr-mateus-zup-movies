@@ -19,7 +19,14 @@ export class MoviesListComponent implements OnInit, OnDestroy {
     this.service.destroy();
   }
 
-  teste() {
+  opa() {
     alert("opa");
+  }
+
+  teste() {
+    alert("teste");
+  }
+  eita() {
+    alert("eita");
   }
 }

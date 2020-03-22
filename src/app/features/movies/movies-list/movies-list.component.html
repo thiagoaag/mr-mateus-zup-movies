@@ -18,49 +18,37 @@
       #mouseover
       (mouseenter)="mouseover.value = true"
       (mouseleave)="mouseover.value = false"
-      (click)="service.navigateToMovieDesktop(movie)"
     >
       <div
-        class="mouseover-actions"
+        *ngIf="mouseover?.value"
+        class="navigate-action"
+        (click)="service.mobileNavigateToMovie()"
+      >
+        <span class="glyphicon glyphicon-log-in"></span>
+      </div>
+      <img
         [style.zIndex]="movie.favorite || mouseover?.value ? '100' : '0'"
-        (click)="teste()"
-      >
-        <span
-          *ngIf="movie.favorite || mouseover.value"
-          class="favoritate-action"
-          
-        >
-          <img
-            (click)="teste()"
-            [src]="
-              movie.favorite
-                ? 'assets/1.Icons/icon-heart-full.svg'
-                : 'assets/1.Icons/icon-heart-grey.svg'
-            "
-          />
-        </span>
-      </div>
-      <div
-        class="col-sm-12 col-lg-12 col-md-12 col-lg-12 mouseover-container-information"
-        [style.zIndex]="
-          movie.poster === 'N/A' || mouseover?.value ? '100' : '0'
+        style="position: absolute;top:12px;right: 12px;"
+        (click)="opa()"
+        [src]="
+          movie.favorite
+            ? 'assets/1.Icons/icon-heart-full.svg'
+            : 'assets/1.Icons/icon-heart-grey.svg'
         "
+      />
+      <div
+        *ngIf="mouseover?.value"
+        class="mouseover-movie-information"
+        [ngClass]="{
+          'mouseover-movie-information-mobile': !service.isDesktop
+        }"
+        (click)="service.deskTopNavigateToMovie()"
       >
-        <p
-          [ngClass]="{
-            'mouseover-movie-information-mobile': !service.isDesktop
-          }"
-          class="mouseover-movie-information"
-          (click)="service.navigateToMovie(movie)"
-        >
-          <span class="mouseover-movie-information-title">{{
-            movie.title
-          }}</span>
-          <br />
-          <span class="mouseover-movie-information-year">{{ movie.year }}</span>
-        </p>
+        <p class="mouseover-movie-information-title">{{ movie.title }}</p>
+        <p class="mouseover-movie-information-year">{{ movie.year }}</p>
       </div>
       <div
+        (click)="service.deskTopNavigateToMovie()"
         [style.opacity]="
           movie?.poster !== 'N/A' && mouseover?.value ? '0.3' : '100'
         "
@@ -83,6 +71,50 @@
       >
         Show More
       </button>
+    </div>
+
+    <div
+      class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding"
+      style="color:white;text-align: center;position: relative;"
+      *ngIf="moviesList?.response != 'True'"
+    >
+      <div *ngIf="moviesList.error">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 no-padding"></div>
+        <div class="visible-col-xs-4 col-sm-4 col-md-4 col-lg-4 no-padding">
+          <img
+            class=""
+            src="assets\2.Illustrations\illustrations-sorry.png"
+          />
+          <p style="font-size: 24px;color: #FFFFFF;">
+            {{ moviesList.error }}
+          </p>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 no-padding"></div>
+      </div>
+      <div *ngIf="!moviesList.error">
+        <div class="col-xs-2 col-sm-1 col-md-1 col-lg-4 no-padding"></div>
+
+        <div class="visible-col-xs-8 col-sm-10 col-md-10 col-lg-4 no-padding">
+          <img
+            class="img-responsive visible-lg"
+            src="assets\2.Illustrations\illustration-empty-state.png"
+          />
+          <img
+            class="img-responsive visible-xs visible-sm visible-md"
+            src="assets\2.Illustrations\illustration-empty-state@2x.png"
+          />
+          <p>
+            <span style="font-size: 24px;color: #FFFFFF;"
+              >Don't know what to <br />
+              search? <br
+            /></span>
+            <span style="font-size: 16px;color: #7A8C99;"
+              >Here's a offer you can't refuse</span
+            >
+          </p>
+        </div>
+        <div class="col-xs-2 col-sm-! col-md-1 col-lg-4 no-padding"></div>
+      </div>
     </div>
   </div>
 </div>

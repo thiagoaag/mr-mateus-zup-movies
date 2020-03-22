@@ -10,7 +10,7 @@
     "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "ng test",
-    "test:ci": "ng test --karma-config=karma-ci.conf.js --no-progress --code-coverage",
+    "test:ci": "ng test --watch=false --browsers-ChromeHeadless --code-coverage",
     "test:single-run": "ng test -- --watch=false --code-coverage",
     "lint": "ng lint",
     "build:ci": "npm run clean && ng lint && npm run build:prod && npm run test:ci"
@@ -27,6 +27,7 @@
     "@angular/router": "~8.0.0",
     "bootstrap": "^3.4.1",
     "ngx-device-detector": "^1.4.1",
+    "ngx-loading": "^8.0.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"

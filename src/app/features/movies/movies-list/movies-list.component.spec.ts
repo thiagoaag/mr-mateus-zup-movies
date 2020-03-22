@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { MoviesListService } from './movies-list.service';
 import { MoviesListMockService } from 'src/mocks/features/movies/movies-list/movies-list-mock.service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe("MoviesListComponent", () => {
   let component: MoviesListComponent;
@@ -19,7 +20,8 @@ describe("MoviesListComponent", () => {
           provide: MoviesListService,
           useClass: MoviesListMockService
         },
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 

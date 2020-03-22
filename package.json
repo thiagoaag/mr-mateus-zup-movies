@@ -10,7 +10,7 @@
     "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "ng test",
-    "test:ci": "ng test --watch=false --browsers-ChromeHeadless --code-coverage",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadless --code-coverage",
     "test:single-run": "ng test -- --watch=false --code-coverage",
     "lint": "ng lint",
     "build:ci": "npm run clean && ng lint && npm run build:prod && npm run test:ci"

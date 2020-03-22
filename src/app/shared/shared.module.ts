@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SearchBoxComponent } from './search-box/search-box.component';
 import { SearchBoxModule } from './search-box/search-box.module';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    SearchBoxModule
+    SearchBoxModule,
+    NgxLoadingModule
   ],
-  exports: [SearchBoxModule],
+  exports: [
+    NgxLoadingModule,
+    SearchBoxModule],
 })
 export class SharedModule { }

@@ -71,6 +71,8 @@
   z-index: 11;
   bottom: 4px;
   z-index: 100;
+  width: 90%;
+  padding: 12px;
 }
 
 .mouseover-movie-information-title {

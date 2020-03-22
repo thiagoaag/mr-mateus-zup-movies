@@ -7,9 +7,11 @@ import { DeviceDetectorMockService } from "src/mocks/libs/ngx-device-detector/de
 import { OmdbService } from "src/app/core/omdb/omdb.service";
 import { OmdbMockService } from "src/mocks/core/omdb/omdb-mock.service";
 import { of, Subscription, throwError } from "rxjs";
-import { MoviesListDto } from "./movies-list-dto";
+import { MoviesListDto, MovieDto } from "./movies-list-dto";
 import { OMDbError } from "src/app/core/omdb/omdb-dto";
 import { Router } from "@angular/router";
+import { FavoriteMovieService } from "src/app/core/favorite-movie/favorite-movie.service";
+import { FavoriteMovieMockService } from "src/mocks/core/favorite-movie/favorite-movie.service";
 
 describe("MoviesListService", () => {
   beforeEach(() =>
@@ -23,6 +25,10 @@ describe("MoviesListService", () => {
         {
           provide: OmdbService,
           useClass: OmdbMockService
+        },
+        {
+          provide: FavoriteMovieService,
+          useClass: FavoriteMovieMockService
         }
       ]
     })
@@ -252,4 +258,85 @@ describe("MoviesListService", () => {
     service.mobileNavigateToMovie(undefined);
     expect(spyRouter).toHaveBeenCalledWith(["movies/details"]);
   });
+
+  it("deve chamar o método para adicionar o filme favorito na lista", () => {
+    const favoriteMovieService: FavoriteMovieService = TestBed.get(
+      FavoriteMovieService
+    );
+    spyOn(favoriteMovieService, "saveFavoriteMovie").and.callFake(() => {});
+
+    const movieDto: MovieDto = {
+      imdbID: "123",
+      poster: "poster",
+      title: "Favorite movie",
+      year: "2020",
+      favorite: false
+    };
+
+    service.addFavoriteMovie(movieDto);
+    expect(movieDto.favorite).toBeTruthy();
+    expect(favoriteMovieService.saveFavoriteMovie).toHaveBeenCalled();
+  });
+
+  it("deve chamar o método para removes o filme favorito na lista", () => {
+    const favoriteMovieService: FavoriteMovieService = TestBed.get(
+      FavoriteMovieService
+    );
+    spyOn(favoriteMovieService, "removeFavoriteMovie").and.callFake(() => {});
+
+    const movieDto: MovieDto = {
+      imdbID: "123",
+      poster: "poster",
+      title: "Favorite movie",
+      year: "2020",
+      favorite: false
+    };
+
+    service.removeFavoriteMovie(movieDto);
+    expect(movieDto.favorite).toBeFalsy();
+    expect(favoriteMovieService.removeFavoriteMovie).toHaveBeenCalled();
+  });
+
+  it("deve marcar o filme como favorito ao fazer a busca", fakeAsync(() => {
+    const omdbService = TestBed.get(OmdbService);
+    const spyOmdbServiceSearch = spyOn<OmdbService>(
+      omdbService,
+      "searchFor"
+    ).and.callFake(() =>
+      of({
+        Response: "True",
+        Search: [
+          {
+            Title: "Filme de teste",
+            imdbID: '1'
+          }
+        ]
+      })
+    );
+
+    const favoriteMovieService: FavoriteMovieService = TestBed.get(FavoriteMovieService);
+    const moviesDto = [
+      {
+        imdbID: '1',
+        favorite: true,
+        poster: 'Poster',
+        title: 'Filme de Teste'
+      }
+    ] as Array<MovieDto>;
+    spyOn(favoriteMovieService, "searchAllFavoriteMovies").and.returnValue(moviesDto);
+
+    service.initialize();
+    tick();
+
+    let movieListDto: MoviesListDto;
+
+    service.moviesListDto$.subscribe(value => {
+      movieListDto = value;
+    });
+    service.searchText.patchValue("OPA");
+    tick(500);
+    expect(spyOmdbServiceSearch).toHaveBeenCalledWith("OPA", 1);
+    expect(movieListDto.response).toEqual("true");
+    expect(movieListDto.movies[0].favorite).toEqual(true);
+  }));
 });

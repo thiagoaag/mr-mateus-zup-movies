@@ -14,6 +14,7 @@ import { MoviesListDto, MovieDto } from "./movies-list-dto";
 import { OMDbDto } from "src/app/core/omdb/omdb-dto";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { Router } from "@angular/router";
+import { FavoriteMovieService } from 'src/app/core/favorite-movie/favorite-movie.service';
 
 @Injectable({
   providedIn: "root"
@@ -35,7 +36,8 @@ export class MoviesListService {
   constructor(
     private omdbService: OmdbService,
     private deviceDetectorService: DeviceDetectorService,
-    private router: Router
+    private router: Router,
+    private favoriteMovieService: FavoriteMovieService
   ) {
     this.isDesktop = this.deviceDetectorService.isDesktop();
   }
@@ -104,7 +106,7 @@ export class MoviesListService {
 
   private mapToMovieListDto(omdbResponse: OMDbDto): MoviesListDto {
     if (omdbResponse.Search && omdbResponse.Search.length > 0) {
-      return {
+      const moviesListDto = {
         movies: omdbResponse.Search.map(movie => ({
           title: movie.Title,
           imdbID: movie.imdbID,
@@ -115,6 +117,15 @@ export class MoviesListService {
         total: omdbResponse.totalResults,
         error: omdbResponse.Error
       } as MoviesListDto;
+      const favoriteMovies = this.favoriteMovieService.searchAllFavoriteMovies();
+      moviesListDto.movies.map(movie => {
+        const favoriteMovieFiltered = favoriteMovies.filter(filterMovie => filterMovie.imdbID === movie.imdbID);
+        if (favoriteMovieFiltered && favoriteMovieFiltered.length > 0) {
+          movie.favorite = true;
+        }
+        return movie;
+      });
+      return moviesListDto;
     } else {
       return {
         movies: [],
@@ -133,5 +144,15 @@ export class MoviesListService {
 
   mobileNavigateToMovie(movie: MovieDto) {
     this.router.navigate(["movies/details"]);
+  }
+
+  addFavoriteMovie(movie: MovieDto) {
+    movie.favorite = true;
+    this.favoriteMovieService.saveFavoriteMovie(movie);
+  }
+
+  removeFavoriteMovie(movie: MovieDto) {
+    movie.favorite = false;
+    this.favoriteMovieService.removeFavoriteMovie(movie);
   }
 }

@@ -5,19 +5,28 @@
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
-    "experimentalDecorators": true,
     "module": "esnext",
     "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es2015",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "lib": [
       "es2018",
       "dom"
-    ]
-  },
-  "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    ],
+    "paths": {
+      "zup-movies": [
+        "dist/zup-movies",
+        "dist/zup-movies"
+      ],
+      "zup-movies/*": [
+        "dist/zup-movies/*",
+        "dist/zup-movies/*"
+      ]
+    }
   }
 }

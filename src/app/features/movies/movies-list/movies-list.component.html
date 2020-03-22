@@ -1,1 +1,121 @@
-<p>movies-list works!</p>
+<div class="col-xs-1 col-sm-1 col-md-1"></div>
+<div class="col-xs-10 col-sm-10 col-md-10">
+  <div class="row logo">
+    <img src="assets\2.Logos\logo.png" alt="Logo What's in" />
+  </div>
+  <div class="row search-box">
+    <input 
+      type="search"
+      class="form-control"
+      [formControl]="service.searchText"
+      autofocus
+    />
+  </div>
+  <div class="row" *ngIf="service.moviesListDto$ | async as moviesList">
+    <div
+      class="col-xs-6 col-sm-3 col-md-2 container-movies"
+      *ngFor="let movie of moviesList?.movies"
+      #mouseover
+      (mouseenter)="mouseover.value = true"
+      (mouseleave)="mouseover.value = false"
+    >
+      <div
+        *ngIf="mouseover?.value"
+        class="navigate-action"
+        (click)="service.mobileNavigateToMovie()"
+      >
+        <span class="glyphicon glyphicon-log-in"></span>
+      </div>
+      <img
+        [style.zIndex]="movie.favorite || mouseover?.value ? '100' : '0'"
+        style="position: absolute;top:12px;right: 12px;"
+        (click)="opa()"
+        [src]="
+          movie.favorite
+            ? 'assets/1.Icons/icon-heart-full.svg'
+            : 'assets/1.Icons/icon-heart-grey.svg'
+        "
+      />
+      <div
+        *ngIf="mouseover?.value"
+        class="mouseover-movie-information"
+        [ngClass]="{
+          'mouseover-movie-information-mobile': !service.isDesktop
+        }"
+        (click)="service.desktopNavigateToMovie()"
+      >
+        <p class="mouseover-movie-information-title">{{ movie.title }}</p>
+        <p class="mouseover-movie-information-year">{{ movie.year }}</p>
+      </div>
+      <div
+        (click)="service.deskTopNavigateToMovie()"
+        [style.opacity]="
+          movie?.poster !== 'N/A' && mouseover?.value ? '0.3' : '100'
+        "
+        class="container-poster"
+      >
+        <img
+          *ngIf="movie?.poster && movie?.poster !== 'N/A'"
+          class="poster-image"
+          [src]="movie.poster"
+          alt="Movie: {{ movie.title }}"
+        />
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 show-more">
+      <button
+        *ngIf="moviesList?.movies?.length > 0"
+        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn btn-secondary"
+        (click)="service.showMore()"
+        [disabled]="!service.hasNext"
+      >
+        Show More
+      </button>
+    </div>
+
+    <div
+      class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding"
+      style="color:white;text-align: center;position: relative;"
+      *ngIf="moviesList?.response != 'true'"
+    >
+      <div *ngIf="moviesList.error">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 no-padding"></div>
+        <div class="visible-col-xs-4 col-sm-4 col-md-4 col-lg-4 no-padding">
+          <img
+            class=""
+            src="assets\2.Illustrations\illustrations-sorry.png"
+          />
+          <p style="font-size: 24px;color: #FFFFFF;">
+            {{ moviesList.error }}
+          </p>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 no-padding"></div>
+      </div>
+      <div *ngIf="!moviesList.error">
+        <div class="col-xs-2 col-sm-1 col-md-1 col-lg-4 no-padding"></div>
+
+        <div class="visible-col-xs-8 col-sm-10 col-md-10 col-lg-4 no-padding">
+          <img
+            class="img-responsive visible-lg"
+            src="assets\2.Illustrations\illustration-empty-state.png"
+          />
+          <img
+            class="img-responsive visible-xs visible-sm visible-md"
+            src="assets\2.Illustrations\illustration-empty-state@2x.png"
+          />
+          <p>
+            <span style="font-size: 24px;color: #FFFFFF;"
+              >Don't know what to <br />
+              search? <br
+            /></span>
+            <span style="font-size: 16px;color: #7A8C99;"
+              >Here's a offer you can't refuse</span
+            >
+          </p>
+        </div>
+        <div class="col-xs-2 col-sm-! col-md-1 col-lg-4 no-padding"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-xs-1 col-sm-1 col-md-1"></div>

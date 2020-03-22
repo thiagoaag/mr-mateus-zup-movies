@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { MoviesListComponent } from "./movies-list.component";
+import { ReactiveFormsModule } from "@angular/forms";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { MoviesListService } from './movies-list.service';
+import { MoviesListMockService } from 'src/mocks/features/movies/movies-list/movies-list-mock.service';
 
 describe("MoviesListComponent", () => {
   let component: MoviesListComponent;
@@ -8,9 +12,15 @@ describe("MoviesListComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MoviesListComponent ]
-    })
-    .compileComponents();
+      declarations: [MoviesListComponent],
+      imports: [ReactiveFormsModule, HttpClientTestingModule],
+      providers: [
+        {
+          provide: MoviesListService,
+          useClass: MoviesListMockService
+        },
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

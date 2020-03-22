@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SearchComponent } from './search/search.component';
 
 @NgModule({
-  declarations: [SearchComponent],
+  declarations: [],
   imports: [
     CommonModule
   ],
-  exports:[SearchComponent]
+  exports: []
 })
 export class ZupComponentsModule { }

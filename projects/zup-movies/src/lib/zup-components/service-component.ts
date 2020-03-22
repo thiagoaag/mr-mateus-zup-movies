@@ -1,7 +1,5 @@
 export interface ServiceComponent {
     initialize();
 
-    destroy(){
-        
-    }
+    destroy();
 }

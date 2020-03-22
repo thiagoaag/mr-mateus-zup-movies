@@ -7,6 +7,18 @@
   padding: 4px;
   padding-bottom: 16px;
 }
+
+.search-box input {
+  background: url(~src/assets/1.Icons/icon-magnifier-disabled.svg) no-repeat scroll 7px 7px;
+  background-color: white;
+  padding-left:30px;
+}
+
+.search-box input:focus {
+  background: url(~src/assets/1.Icons/icon-magnifier-grey.svg) no-repeat scroll 7px 7px;
+  background-color: white;
+  padding-left:30px;
+} 
 .container-poster {
   position: relative;
   height: 16.875rem;

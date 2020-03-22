@@ -4,7 +4,7 @@
     <img src="assets\2.Logos\logo.png" alt="Logo What's in" />
   </div>
   <div class="row search-box">
-    <input
+    <input 
       type="search"
       class="form-control"
       [formControl]="service.searchText"
@@ -42,7 +42,7 @@
         [ngClass]="{
           'mouseover-movie-information-mobile': !service.isDesktop
         }"
-        (click)="service.deskTopNavigateToMovie()"
+        (click)="service.desktopNavigateToMovie()"
       >
         <p class="mouseover-movie-information-title">{{ movie.title }}</p>
         <p class="mouseover-movie-information-year">{{ movie.year }}</p>
@@ -76,7 +76,7 @@
     <div
       class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding"
       style="color:white;text-align: center;position: relative;"
-      *ngIf="moviesList?.response != 'True'"
+      *ngIf="moviesList?.response != 'true'"
     >
       <div *ngIf="moviesList.error">
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 no-padding"></div>

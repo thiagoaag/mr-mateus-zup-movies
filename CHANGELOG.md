@@ -1,12 +1,22 @@
 # Change log
 
-# v1.1.2
-[18/03/2019]
-### [#12](https://github.com/thiagoaag/mr-mateus-zup-movies/issues/12) 
-### Melhorias
- - Configurado ```lint``` e ```test``` do projeto junto com o ```build```
- - Configurado redirecionamento de rotas para ```movies/list``` quando a página estive com o path ```''``` ou ```'movies'```
- - Ajustes de lint
+# v1.2.2
+[22/03/2019]
+### [#2](https://github.com/thiagoaag/mr-mateus-zup-movies/issues/2) 
+### Novas funcionalidades
+ - Implementado busca de filmes com listagem
+ - Implementado mensagem de erros de acordo com a resposta da API
+ - Implementado mensagem de erro quando uma exceção acontecer
+ - Implementado evento para mostrar a descrição do filme quando o mouse ficar em cima do poster
+ - Implementado navegação para mobile. Ao clicar a primeira vez é apresentado ao usuário se o filme foi favoritado ou não, descrição e ano do filme, um ícone de navegação aparece no topo do poster indicando que o usuário pode clicar para entrar nos detalhes
+ - Implementado que ao clicar no ícone de navegação na parte mobile, o usuário vai para a página de detalhes (página de detalhes não implementada)
+ - Implementado no desktop que ao clicar no poster o usuário é redirecionado para a página de detalhes (página de detalhes não implementada)
+ - Implementado campo de busca. Ao digitar o ```frontend``` aguarda 500 millisegundos para ver se o usuário ainda está digitando e verifica se o termo não é igual ao anterior antes de fazer a busca.
+ - Implementado páginação com um botão 'Show more'. Botão desabilita quando não há mais páginas a serem mostradas
+ ## Melhorias 
+ - Implementação de testes unitários da funcionalidade de listagem
+ - Criação de uma lib para componentes e serviços reutilizáveis do projeto
+
 
 # v1.1.2
 [18/03/2019]

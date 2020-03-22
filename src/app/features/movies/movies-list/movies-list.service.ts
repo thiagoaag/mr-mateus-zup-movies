@@ -78,10 +78,6 @@ export class MoviesListService {
               movies: concatMovies
             });
           } else {
-            // moviesListMapped.movies[0].favorite = true;
-            // moviesListMapped.movies[2].favorite = true;
-            // moviesListMapped.movies[5].favorite = true;
-            // moviesListMapped.movies[9].favorite = true;
             this.moviesListDto.next(moviesListMapped);
           }
         },
@@ -111,7 +107,7 @@ export class MoviesListService {
           poster: movie.Poster,
           year: movie.Year
         })),
-        response: omdbResponse.Response,
+        response: omdbResponse.Response.toLowerCase(),
         total: omdbResponse.totalResults,
         error: omdbResponse.Error
       } as MoviesListDto;

@@ -57,7 +57,7 @@ describe("FavoriteMovieService", () => {
       favorite: true
     } as MovieDto;
 
-    spyOn(localStorage, "getItem").and.returnValue(JSON.stringify([movie]));    
+    spyOn(localStorage, "getItem").and.returnValue(JSON.stringify([movie]));
 
     spyOn(localStorage, "setItem").and.callFake(() => {});
 
@@ -70,7 +70,7 @@ describe("FavoriteMovieService", () => {
     const movies = [
       movie,
       movie2
-    ]
+    ];
     expect(localStorage.setItem).toHaveBeenCalledWith(
       "favorite-movies",
       JSON.stringify(movies)

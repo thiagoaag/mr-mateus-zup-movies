@@ -5,7 +5,8 @@ import {
   distinctUntilChanged,
   debounce,
   takeUntil,
-  map
+  map,
+  finalize
 } from "rxjs/operators";
 import { OmdbService } from "src/app/core/omdb/omdb.service";
 import { FormControl } from "@angular/forms";
@@ -21,6 +22,7 @@ export class MoviesListService {
   public searchText = new FormControl("");
   public hasNext = false;
   public page = 1;
+  public isLoading = false;
   private moviesListDto: BehaviorSubject<MoviesListDto> = new BehaviorSubject(
     {}
   );
@@ -52,11 +54,13 @@ export class MoviesListService {
   }
 
   search(term, page) {
+    this.isLoading = true;
     this.omdbService
       .searchFor(term, page)
       .pipe(
         takeUntil(this.destroy$),
-        map(omdbResponse => this.mapToMovieListDto(omdbResponse))
+        map(omdbResponse => this.mapToMovieListDto(omdbResponse)),
+        finalize(() => this.isLoading = false)
       )
       .subscribe(
         moviesListMapped => {

@@ -1,5 +1,9 @@
 # Change log
 
+# v1.2.3
+[22/03/2019]
+### Correções 
+ - Removido execução duplicada dos testes
 # v1.2.2
 [22/03/2019]
 ### Correções 

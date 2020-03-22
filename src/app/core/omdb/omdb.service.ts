@@ -14,11 +14,11 @@ export class OmdbService {
     params = params.append("s", term);
     params = params.append("page", page.toString());
     return this.http
-    .get(environment.OMDbAPI, { params }
+    .get<OMDbDto | OMDbError>(environment.OMDbAPI, { params }
     )
     .pipe(
       map(omdbResponse => {
-        if (omdbResponse instanceof OMDbError) {
+        if (omdbResponse.Error) {
           return {
             Error: omdbResponse.Error,
             Response: omdbResponse.Response

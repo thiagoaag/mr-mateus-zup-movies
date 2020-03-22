@@ -5,10 +5,7 @@ import { Component, OnInit } from "@angular/core";
   templateUrl: "./movies.component.html",
   styleUrls: ["./movies.component.css"]
 })
-export class MoviesComponent implements OnInit {
+export class MoviesComponent {
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

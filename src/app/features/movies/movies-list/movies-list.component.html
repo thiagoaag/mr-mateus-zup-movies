@@ -26,18 +26,20 @@
       >
         <span class="glyphicon glyphicon-log-in"></span>
       </div>
-      <img
-        [style.zIndex]="movie.favorite || mouseover?.value ? '100' : '0'"
+      <img *ngIf="movie.favorite"
+        [style.zIndex]="'100'"
         style="position: absolute;top:12px;right: 12px;"
-        (click)="opa()"
-        [src]="
-          movie.favorite
-            ? 'assets/1.Icons/icon-heart-full.svg'
-            : 'assets/1.Icons/icon-heart-grey.svg'
-        "
+        (click)="service.removeFavoriteMovie(movie)"
+        src="assets/1.Icons/icon-heart-full.svg"
+      />
+      <img *ngIf="!movie.favorite"
+        [style.zIndex]="mouseover?.value ? '100' : '0'"
+        style="position: absolute;top:12px;right: 12px;"
+        (click)="service.addFavoriteMovie(movie)"
+        src="assets/1.Icons/icon-heart-grey.svg"
       />
       <div
-        *ngIf="mouseover?.value"
+        *ngIf="movie.poster == 'N/A' || mouseover?.value"
         class="mouseover-movie-information"
         [ngClass]="{
           'mouseover-movie-information-mobile': !service.isDesktop

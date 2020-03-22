@@ -1,9 +1,17 @@
 # Change log
 
+# v1.4.0
+[22/03/2019]
+### [#4]((https://github.com/thiagoaag/mr-mateus-zup-movies/issues/4) 
+### Novas funcionalidade 
+ - implementação da funcionalidade de adicionar favoritos
+### Melhorias 
+ - Implementação de mais testes unitários
+
 # v1.3.0
 [22/03/2019]
-### Novas funcionalidade 
 ### [#19]((https://github.com/thiagoaag/mr-mateus-zup-movies/issues/19) implementação do loading na página de listagem
+### Novas funcionalidade 
 # v1.2.3
 [22/03/2019]
 ### Correções 

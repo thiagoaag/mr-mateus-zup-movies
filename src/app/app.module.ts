@@ -8,7 +8,7 @@ import { CoreModule } from "./core/core.module";
 import { SearchBoxComponent } from './shared/search-box/search-box.component';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { NgxLoadingModule } from 'ngx-loading';
- 
+
 @NgModule({
   declarations: [
     AppComponent

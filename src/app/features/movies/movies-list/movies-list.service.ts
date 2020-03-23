@@ -72,13 +72,9 @@ export class MoviesListService {
           moviesListMapped => {
             const totalPages = Number(Number(moviesListMapped.total) / 10);
             this.hasNext = this.page < totalPages;
-            if (
-              this.page !== 1 &&
-              this.moviesListDto.getValue().movies &&
-              this.moviesListDto.getValue().movies.length > 0 &&
-              moviesListMapped &&
-              moviesListMapped.movies.length > 0
-            ) {
+            if (this.page === 1) {
+              this.moviesListDto.next(moviesListMapped);
+            } else {
               const concatMovies = [
                 ...this.moviesListDto.getValue().movies,
                 ...moviesListMapped.movies
@@ -87,8 +83,6 @@ export class MoviesListService {
                 ...moviesListMapped,
                 movies: concatMovies
               });
-            } else {
-              this.moviesListDto.next(moviesListMapped);
             }
           },
           error => {

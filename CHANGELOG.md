@@ -1,5 +1,11 @@
 # Change log
 
+# v1.6.1
+[22/03/2019]
+### [#23]((https://github.com/thiagoaag/mr-mateus-zup-movies/issues/23) 
+### Melhorias 
+ - Inicializado construção de testes e2e
+
 # v1.6.0
 [22/03/2019]
 ### [#25]((https://github.com/thiagoaag/mr-mateus-zup-movies/issues/25) 

@@ -11,7 +11,6 @@ import { NgxLoadingModule } from 'ngx-loading';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    // SharedModule,
     NgxLoadingModule
   ],
   providers: [

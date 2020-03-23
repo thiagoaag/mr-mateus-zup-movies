@@ -3,7 +3,7 @@ import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { debounceTime, finalize, map, takeUntil } from "rxjs/operators";
+import { debounceTime, finalize, map, takeUntil, switchMap } from "rxjs/operators";
 import { FavoriteMovieService } from "src/app/core/favorite-movie/favorite-movie.service";
 import { OMDbDto } from "src/app/core/omdb/omdb-dto";
 import { OmdbService } from "src/app/core/omdb/omdb.service";
@@ -13,6 +13,7 @@ import { MovieDto, MoviesListDto } from "./movies-list-dto";
   providedIn: "root"
 })
 export class MoviesListService {
+  private destroy$ = new Subject();
   public searchText = new FormControl("");
   public hasNext = false;
   public page = 1;
@@ -22,8 +23,9 @@ export class MoviesListService {
   );
   public moviesListDto$: Observable<
     MoviesListDto
-  > = this.moviesListDto.asObservable();
-  private destroy$ = new Subject();
+  > = this.moviesListDto.asObservable().pipe(
+    takeUntil(this.destroy$)
+  );
   public isDesktop = true;
 
   constructor(
@@ -37,7 +39,10 @@ export class MoviesListService {
 
   initialize() {
     this.searchText.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(500))
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(400)
+      )
       .subscribe(term => {
         this.search(term, 1);
       });

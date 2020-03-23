@@ -6,6 +6,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { MoviesListService } from "./movies-list.service";
 import { MoviesListMockService } from "src/mocks/features/movies/movies-list/movies-list-mock.service";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe("MoviesListComponent", () => {
   let component: MoviesListComponent;
@@ -14,7 +15,7 @@ describe("MoviesListComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [MoviesListComponent],
-      imports: [ReactiveFormsModule, HttpClientTestingModule],
+      imports: [RouterTestingModule, ReactiveFormsModule, HttpClientTestingModule],
       providers: [
         {
           provide: MoviesListService,

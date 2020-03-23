@@ -5,8 +5,8 @@ import { finalize, map } from "rxjs/operators";
 import { FavoriteMovieService } from "src/app/core/favorite-movie/favorite-movie.service";
 import { OMDbMovieDto } from "src/app/core/omdb/omdb-dto";
 import { OmdbService } from "src/app/core/omdb/omdb.service";
-import { MoviesDetailDto as MovieDetailDto } from "./movies-detail-dto";
-import { MovieDto } from '../movies-list/movies-list-dto';
+import { MoviesDetailDto } from "./movies-detail-dto";
+import { MovieDto } from "../movies-list/movies-list-dto";
 
 @Injectable({
   providedIn: "root"
@@ -14,7 +14,7 @@ import { MovieDto } from '../movies-list/movies-list-dto';
 export class MoviesDetailsService {
   public isLoading = false;
   private movieDetailsDto: BehaviorSubject<
-    MovieDetailDto
+    MoviesDetailDto
   > = new BehaviorSubject({});
   public movieDetailsDto$ = this.movieDetailsDto.asObservable();
   private destroy$ = new Subject();
@@ -67,10 +67,13 @@ export class MoviesDetailsService {
             boxOffice: omdbResponse.BoxOffice,
             production: omdbResponse.Production,
             website: omdbResponse.Website
-          } as MovieDetailDto;
-          const favoriteMovie = this.favoriteMovieService.searchByImdbId(omdbResponse.imdbID);
-          movie.favorite = favoriteMovie.favorite;
-
+          } as MoviesDetailDto;
+          const favoriteMovie = this.favoriteMovieService.searchByImdbId(
+            omdbResponse.imdbID
+          );
+          if (favoriteMovie) {
+            movie.favorite = favoriteMovie.favorite;
+          }
 
           return movie;
         }),
@@ -99,23 +102,27 @@ export class MoviesDetailsService {
       : [];
   }
 
+  private getRating(source: string) {
+    const ratings = this.movieDetailsDto.getValue().ratings;
+    if (ratings && ratings.length > 0) {
+      const imdbRating = ratings.filter(
+        rate => rate.source === source
+      );
+      if (imdbRating && imdbRating.length > 0) {
+        return imdbRating[0].value;
+      } else {
+        return "N/A";
+      }
+    } else {
+      return "N/A";
+    }
+  }
   getRoten() {
-    return this.movieDetailsDto.getValue().ratings &&
-      this.movieDetailsDto.getValue().ratings.length > 0
-      ? this.movieDetailsDto
-          .getValue()
-          .ratings.filter(rate => rate.source === "Rotten Tomatoes")[0].value
-      : [];
+    return this.getRating("Rotten Tomatoes");
   }
 
   getImdb() {
-    return this.movieDetailsDto.getValue().ratings &&
-      this.movieDetailsDto.getValue().ratings.length > 0
-      ? this.movieDetailsDto
-          .getValue()
-          .ratings.filter(rate => rate.source === "Internet Movie Database")[0]
-          .value
-      : [];
+    return this.getRating("Internet Movie Database");
   }
 
   back() {
@@ -141,11 +148,10 @@ export class MoviesDetailsService {
   }
   favoriteMovie() {
     const movieDetailDto = this.movieDetailsDto.getValue();
-    if(movieDetailDto.favorite) {
+    if (movieDetailDto.favorite) {
       movieDetailDto.favorite = false;
     } else {
       movieDetailDto.favorite = true;
-
     }
     this.movieDetailsDto.next(movieDetailDto);
     const favoriteMovieDto = {
@@ -153,12 +159,10 @@ export class MoviesDetailsService {
       imdbID: movieDetailDto.imdbID,
       poster: movieDetailDto.poster
     } as MovieDto;
-    if(movieDetailDto.favorite) {
+    if (movieDetailDto.favorite) {
       this.favoriteMovieService.saveFavoriteMovie(favoriteMovieDto);
     } else {
       this.favoriteMovieService.removeFavoriteMovie(favoriteMovieDto);
-
     }
   }
-
 }

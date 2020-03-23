@@ -94,7 +94,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-5 poster-container">
+    <div *ngIf="movieDetails?.poster !== 'N/A'" class="col-xs-12 col-sm-12 col-md-5 poster-container">
       <img
         class="img-responsive"
         style="border-radius: 3px;"
@@ -103,5 +103,6 @@
       />
     </div>
   </div>
+  <ngx-loading [show]="service.isLoading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
 </div>
 <div class="col-xs-1 col-sm-1 col-md-1"></div>

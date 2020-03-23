@@ -265,7 +265,7 @@ describe("MoviesListService", () => {
       imdbID: '1',
       favorite: true
     });
-    expect(spyRouter).toHaveBeenCalledWith(["movies/details", 1]);
+    expect(spyRouter).toHaveBeenCalledWith(["movies/details", '1']);
   });
 
   it("deve chamar o método para adicionar o filme favorito na lista", () => {

@@ -1,16 +1,20 @@
-import { AppPage } from './app.po';
 import { browser, logging } from 'protractor';
+import { MoviesListPO } from './movies-lsit.po';
 
 describe('workspace-project App', () => {
-  let page: AppPage;
+  let page: MoviesListPO;
 
   beforeEach(() => {
-    page = new AppPage();
+    page = new MoviesListPO();
   });
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Welcome to mr-mateus-zup-movies!');
+    const search = page.searchFor("spider");
+    browser.wait(search, 7000);
+    const containers = page.countContainerMovies();
+    browser.wait(containers, 500);
+    expect(containers).toEqual(10);
   });
 
   afterEach(async () => {

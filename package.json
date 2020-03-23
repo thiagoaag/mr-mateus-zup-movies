@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "clean": "rimraf ./dist",
-    "start": "ng serve",
+    "start": "node server.js",
     "start:host": "ng serve --host 0.0.0.0",
     "build:lib": "ng build --project=zup-movies",
     "build": "ng build",
@@ -14,7 +14,13 @@
     "test:single-run": "ng test -- --watch=false --code-coverage",
     "e2e": "ng e2e",
     "lint": "ng lint",
-    "build:ci": "npm run clean && ng lint && npm run build:prod && npm run test:ci && ng e2e"
+    "build:ci": "npm run clean && ng lint && npm run build:prod && npm run test:ci && ng e2e",
+    "postinstall": "ng build --prod",
+    "heroku-postbuild": "ng build --prod"
+  },
+  "engines": {
+    "node": "10.16.3",
+    "npm": "6.9.0"
   },
   "private": true,
   "dependencies": {
@@ -27,9 +33,11 @@
     "@angular/platform-browser-dynamic": "~8.0.0",
     "@angular/router": "~8.0.0",
     "bootstrap": "^3.4.1",
+    "express": "^4.17.1",
     "karma-spec-reporter": "0.0.32",
     "ngx-device-detector": "^1.4.1",
     "ngx-loading": "^8.0.0",
+    "path": "^0.12.7",
     "rxjs": "~6.4.0",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
@@ -45,6 +53,7 @@
     "@types/node": "~8.9.4",
     "caniuse-lite": "^1.0.30000997",
     "codelyzer": "^5.0.0",
+    "enhanced-resolve": "^3.3.0",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~3.1.3",

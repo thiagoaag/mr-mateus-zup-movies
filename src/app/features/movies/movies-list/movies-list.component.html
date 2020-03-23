@@ -85,19 +85,19 @@
     </div>
 
     <div
-      class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding"
-      style="color:white;text-align: center;position: relative;"
+      class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding movies-list-empty"
       *ngIf="moviesList?.response != 'true'"
     >
-      <div *ngIf="moviesList.error">
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 no-padding"></div>
-        <div class="visible-col-xs-4 col-sm-4 col-md-4 col-lg-4 no-padding">
+      <div *ngIf="moviesList?.error">
+        <div class="col-xs-2 col-sm-1 col-md-1 col-lg-4 no-padding"></div>
+        <div class="col-xs-8 col-sm-10 col-md-10 col-lg-4 no-padding">
+          
           <img class="" src="assets\2.Illustrations\illustrations-sorry.png" />
-          <p style="font-size: 24px;color: #FFFFFF;">
+          <span class="movies-list-empty-error">
             {{ moviesList.error }}
-          </p>
+          </span>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 no-padding"></div>
+        <div class="col-xs-2 col-sm-1 col-md-1 col-lg-4 no-padding"></div>
       </div>
       <div *ngIf="!moviesList.error">
         <div class="col-xs-2 col-sm-1 col-md-1 col-lg-4 no-padding"></div>
@@ -112,11 +112,11 @@
             src="assets\2.Illustrations\illustration-empty-state@2x.png"
           />
           <p>
-            <span style="font-size: 24px;color: #FFFFFF;"
+            <span class="movies-list-empty-state-title" 
               >Don't know what to <br />
               search? <br
             /></span>
-            <span style="font-size: 16px;color: #7A8C99;"
+            <span class="movies-list-empty-state-subtitle"
               >Here's a offer you can't refuse</span
             >
           </p>

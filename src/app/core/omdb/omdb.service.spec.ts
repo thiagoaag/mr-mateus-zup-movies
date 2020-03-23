@@ -1,7 +1,7 @@
 import { TestBed, tick, fakeAsync } from "@angular/core/testing";
 import { OmdbService } from "./omdb.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { OMDbDto, OMDbError } from "./omdb-dto";
+import { OMDbDto, OMDbError, OMDbMovieDto } from "./omdb-dto";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { of } from "rxjs";
 import { MoviesListDto } from "src/app/features/movies/movies-list/movies-list-dto";
@@ -81,8 +81,8 @@ describe("OmdbService", () => {
   it("deve mapear a resposta de erro para o padrão do dto OmdbDto", fakeAsync(() => {
     const htttp: HttpClient = TestBed.get(HttpClient);
     const omdbDto: OMDbError = {
-      Error: 'Algo deu errado',
-      Response: 'False'
+      Error: "Algo deu errado",
+      Response: "False"
     };
 
     const spyGet = spyOn(htttp, "get").and.returnValue(of(omdbDto));
@@ -97,5 +97,20 @@ describe("OmdbService", () => {
     params = params.append("s", "123");
     params = params.append("page", "1");
     expect(spyGet).toHaveBeenCalledWith(`${environment.OMDbAPI}`, { params });
+  }));
+
+  it("deve fazer a busca do filme pelo id", fakeAsync(() => {
+    const http: HttpClient = TestBed.get(HttpClient);
+    const movie: OMDbMovieDto = {
+      imdbID: '1',
+      Title: 'é isso aí'
+    }
+    spyOn(http, "get").and.returnValue(of(movie));
+    let movieSearched: OMDbMovieDto;
+    service.findById("123").subscribe(response => {
+      movieSearched = response;
+    });
+    tick();
+    expect(movieSearched).toBeTruthy();
   }));
 });

@@ -20,20 +20,11 @@ export class OMDbMovieDto {
   Country?: string;
   Awards?: string;
   Poster?: string;
-  Ratings?: [
-    {
-      Source?: string;
-      Value?: string;
-    },
-    {
-      Source?: string;
-      Value?: string;
-    },
-    {
-      Source?: string;
-      Value?: string;
-    }
-  ];
+  Ratings?: Array<{
+    Source?: string;
+    Value?: string;
+
+  }>;
   Metascore?: string;
   imdbRating?: string;
   imdbVotes?: string;

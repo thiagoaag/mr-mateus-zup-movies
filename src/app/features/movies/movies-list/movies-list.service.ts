@@ -1,25 +1,25 @@
 import { Injectable } from "@angular/core";
-import { Observable, of, Subject, BehaviorSubject } from "rxjs";
+import { FormControl } from "@angular/forms";
+import { Router } from "@angular/router";
+import { DeviceDetectorService } from "ngx-device-detector";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 import {
   debounceTime,
-  distinctUntilChanged,
-  debounce,
-  takeUntil,
+  finalize,
   map,
-  finalize
+  takeUntil,
+  switchMap
 } from "rxjs/operators";
-import { OmdbService } from "src/app/core/omdb/omdb.service";
-import { FormControl } from "@angular/forms";
-import { MoviesListDto, MovieDto } from "./movies-list-dto";
+import { FavoriteMovieService } from "src/app/core/favorite-movie/favorite-movie.service";
 import { OMDbDto } from "src/app/core/omdb/omdb-dto";
-import { DeviceDetectorService } from "ngx-device-detector";
-import { Router } from "@angular/router";
-import { FavoriteMovieService } from 'src/app/core/favorite-movie/favorite-movie.service';
+import { OmdbService } from "src/app/core/omdb/omdb.service";
+import { MovieDto, MoviesListDto } from "./movies-list-dto";
 
 @Injectable({
   providedIn: "root"
 })
 export class MoviesListService {
+  private destroy$ = new Subject();
   public searchText = new FormControl("");
   public hasNext = false;
   public page = 1;
@@ -29,8 +29,7 @@ export class MoviesListService {
   );
   public moviesListDto$: Observable<
     MoviesListDto
-  > = this.moviesListDto.asObservable();
-  private destroy$ = new Subject();
+  > = this.moviesListDto.asObservable().pipe(takeUntil(this.destroy$));
   public isDesktop = true;
 
   constructor(
@@ -44,7 +43,7 @@ export class MoviesListService {
 
   initialize() {
     this.searchText.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(500))
+      .pipe(takeUntil(this.destroy$), debounceTime(400))
       .subscribe(term => {
         this.search(term, 1);
       });
@@ -56,45 +55,49 @@ export class MoviesListService {
   }
 
   search(term, page) {
-    this.isLoading = true;
-    this.omdbService
-      .searchFor(term, page)
-      .pipe(
-        takeUntil(this.destroy$),
-        map(omdbResponse => this.mapToMovieListDto(omdbResponse)),
-        finalize(() => this.isLoading = false)
-      )
-      .subscribe(
-        moviesListMapped => {
-          const totalPages = Number(Number(moviesListMapped.total) / 10);
-          this.hasNext = this.page < totalPages;
-          if (
-            this.page !== 1 &&
-            this.moviesListDto.getValue().movies &&
-            this.moviesListDto.getValue().movies.length > 0 &&
-            moviesListMapped &&
-            moviesListMapped.movies.length > 0
-          ) {
-            const concatMovies = [
-              ...this.moviesListDto.getValue().movies,
-              ...moviesListMapped.movies
-            ];
+    if (term) {
+      this.isLoading = true;
+      this.omdbService
+        .searchFor(term, page)
+        .pipe(
+          takeUntil(this.destroy$),
+          map(omdbResponse => this.mapToMovieListDto(omdbResponse)),
+          finalize(() => (this.isLoading = false))
+        )
+        .subscribe(
+          moviesListMapped => {
+            const totalPages = Number(Number(moviesListMapped.total) / 10);
+            this.hasNext = this.page < totalPages;
+            if (
+              this.page !== 1 &&
+              this.moviesListDto.getValue().movies &&
+              this.moviesListDto.getValue().movies.length > 0 &&
+              moviesListMapped &&
+              moviesListMapped.movies.length > 0
+            ) {
+              const concatMovies = [
+                ...this.moviesListDto.getValue().movies,
+                ...moviesListMapped.movies
+              ];
+              this.moviesListDto.next({
+                ...moviesListMapped,
+                movies: concatMovies
+              });
+            } else {
+              this.moviesListDto.next(moviesListMapped);
+            }
+          },
+          error => {
             this.moviesListDto.next({
-              ...moviesListMapped,
-              movies: concatMovies
+              error: "Something goes wrong :(",
+              response: "false"
             });
-          } else {
-            this.moviesListDto.next(moviesListMapped);
+            console.error(error);
           }
-        },
-        error => {
-          this.moviesListDto.next({
-            error: "Something goes wrong :(",
-            response: "false"
-          });
-          console.error(error);
-        }
-      );
+        );
+    } else {
+      this.moviesListDto.next({});
+    }
   }
 
   showMore() {
@@ -119,7 +122,9 @@ export class MoviesListService {
       } as MoviesListDto;
       const favoriteMovies = this.favoriteMovieService.searchAllFavoriteMovies();
       moviesListDto.movies.map(movie => {
-        const favoriteMovieFiltered = favoriteMovies.filter(filterMovie => filterMovie.imdbID === movie.imdbID);
+        const favoriteMovieFiltered = favoriteMovies.filter(
+          filterMovie => filterMovie.imdbID === movie.imdbID
+        );
         if (favoriteMovieFiltered && favoriteMovieFiltered.length > 0) {
           movie.favorite = true;
         }
@@ -136,14 +141,14 @@ export class MoviesListService {
     }
   }
 
-  deskTopNavigateToMovie(movie: MovieDto) {
+  desktopNavigateToMovie(movie: MovieDto) {
     if (this.isDesktop) {
-      this.router.navigate(["movies/details"]);
+      this.router.navigate([`movies/details`, movie.imdbID]);
     }
   }
 
   mobileNavigateToMovie(movie: MovieDto) {
-    this.router.navigate(["movies/details"]);
+    this.router.navigate([`movies/details`, movie.imdbID]);
   }
 
   addFavoriteMovie(movie: MovieDto) {

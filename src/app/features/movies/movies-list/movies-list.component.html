@@ -22,7 +22,7 @@
       <div
         *ngIf="mouseover?.value"
         class="navigate-action"
-        (click)="service.mobileNavigateToMovie()"
+        (click)="service.mobileNavigateToMovie(movie)"
       >
         <span class="glyphicon glyphicon-log-in"></span>
       </div>
@@ -44,13 +44,13 @@
         [ngClass]="{
           'mouseover-movie-information-mobile': !service.isDesktop
         }"
-        (click)="service.desktopNavigateToMovie()"
+        (click)="service.desktopNavigateToMovie(movie)"
       >
         <p class="mouseover-movie-information-title">{{ movie.title }}</p>
         <p class="mouseover-movie-information-year">{{ movie.year }}</p>
       </div>
       <div
-        (click)="service.deskTopNavigateToMovie()"
+        (click)="service.desktopNavigateToMovie(movie)"
         [style.opacity]="
           movie?.poster !== 'N/A' && mouseover?.value ? '0.3' : '100'
         "

@@ -67,10 +67,7 @@ describe("FavoriteMovieService", () => {
     } as MovieDto;
 
     service.saveFavoriteMovie(movie2);
-    const movies = [
-      movie,
-      movie2
-    ];
+    const movies = [movie, movie2];
     expect(localStorage.setItem).toHaveBeenCalledWith(
       "favorite-movies",
       JSON.stringify(movies)
@@ -106,5 +103,37 @@ describe("FavoriteMovieService", () => {
     expect(() => {
       service.removeFavoriteMovie(movie);
     }).toThrowError();
+  });
+
+  it("deve buscar o filme com o id correspondente", () => {
+    const movies = [
+      {
+        imdbID: "1",
+        favorite: true
+      },
+      {
+        imdbID: "2",
+        favorite: true
+      }
+    ] as Array<MovieDto>;
+
+    spyOn(localStorage, "getItem").and.returnValue(JSON.stringify(movies));
+    const movie = service.searchByImdbId("1");
+    expect(movie.imdbID).toEqual("1");
+    const movie2 = service.searchByImdbId("2");
+    expect(movie2.imdbID).toEqual("2");
+  });
+
+  it("deve retornar undefined quando a busca não for válida", () => {
+    const movie = service.searchByImdbId("");
+    expect(movie).toBeUndefined();
+    const movie2 = service.searchByImdbId(undefined);
+    expect(movie2).toBeUndefined();
+  });
+
+  it("deve retornar undefined quando a busca não encontrar o registro", () => {
+    spyOn(localStorage, "getItem").and.returnValue(JSON.stringify([]));
+    const movie = service.searchByImdbId("1");
+    expect(movie).toBeUndefined();
   });
 });

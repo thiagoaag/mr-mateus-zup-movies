@@ -21,7 +21,7 @@ export class MoviesListComponent implements OnInit, OnDestroy {
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.service.search(this.service.searchText.value, 1);
-    })
+    });
   }
 
   ngOnDestroy() {

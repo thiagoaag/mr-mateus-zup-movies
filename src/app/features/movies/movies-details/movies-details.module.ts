@@ -10,7 +10,7 @@ import { MoviesDetailsService } from './movies-details.service';
     CommonModule,
     NgxLoadingModule
   ],
-  providers:[ MoviesDetailsService]
+  providers: [ MoviesDetailsService]
 })
 export class MoviesDetailsModule {
 }

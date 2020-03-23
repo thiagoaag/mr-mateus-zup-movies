@@ -427,7 +427,7 @@ describe("MoviesDetailsService", () => {
     const omdbMovieDto: OMDbMovieDto = {
       imdbID: "1",
       Title: 'Opa'
-    }
+    };
     spyOn(omdbService, "findById").and.returnValue(of(omdbMovieDto));
     service.initialize("1");
     tick();

@@ -104,7 +104,7 @@ describe("OmdbService", () => {
     const movie: OMDbMovieDto = {
       imdbID: '1',
       Title: 'é isso aí'
-    }
+    };
     spyOn(http, "get").and.returnValue(of(movie));
     let movieSearched: OMDbMovieDto;
     service.findById("123").subscribe(response => {

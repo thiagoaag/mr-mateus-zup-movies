@@ -1,5 +1,13 @@
 # Change log
 
+# v1.5.0
+[22/03/2019]
+### [#3]((https://github.com/thiagoaag/mr-mateus-zup-movies/issues/3) 
+### Novas funcionalidade 
+ - Implementação da visualização do detalhe 
+ - Ao clicar nos ícones de IMDB ou no Rotten Tomatoes o usuário é redirecionado para a página principal dos respectivos sites
+### Melhorias
+ - Testes unitários
 # v1.4.0
 [22/03/2019]
 ### [#4]((https://github.com/thiagoaag/mr-mateus-zup-movies/issues/4) 

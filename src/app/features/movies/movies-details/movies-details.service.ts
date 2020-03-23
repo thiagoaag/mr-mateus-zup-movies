@@ -156,6 +156,7 @@ export class MoviesDetailsService {
     }
     this.movieDetailsDto.next(movieDetailDto);
     const favoriteMovieDto = {
+      title: movieDetailDto.title,
       favorite: movieDetailDto.favorite,
       imdbID: movieDetailDto.imdbID,
       poster: movieDetailDto.poster

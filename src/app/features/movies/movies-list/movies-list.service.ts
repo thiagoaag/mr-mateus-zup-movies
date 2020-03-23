@@ -8,7 +8,8 @@ import {
   finalize,
   map,
   takeUntil,
-  switchMap
+  switchMap,
+  filter
 } from "rxjs/operators";
 import { FavoriteMovieService } from "src/app/core/favorite-movie/favorite-movie.service";
 import { OMDbDto } from "src/app/core/omdb/omdb-dto";
@@ -20,6 +21,7 @@ import { MovieDto, MoviesListDto } from "./movies-list-dto";
 })
 export class MoviesListService {
   private destroy$ = new Subject();
+  public favoriteFiltersActivated = false;
   public searchText = new FormControl("");
   public hasNext = false;
   public page = 1;
@@ -55,7 +57,9 @@ export class MoviesListService {
   }
 
   search(term, page) {
-    if (term) {
+    if (this.favoriteFiltersActivated) {
+      this.searchFavorites(term);
+    } else if (term) {
       this.isLoading = true;
       this.omdbService
         .searchFor(term, page)
@@ -96,7 +100,34 @@ export class MoviesListService {
           }
         );
     } else {
-      this.moviesListDto.next({});
+      this.moviesListDto.next({
+        response: "false",
+        movies: []
+      });
+    }
+  }
+
+  activateFilterFavorites() {
+    this.favoriteFiltersActivated = !this.favoriteFiltersActivated;
+    this.search(this.searchText.value, "1");
+  }
+
+  searchFavorites(term: string) {
+    const movies = this.favoriteMovieService.searchAllFavoriteMovies();
+    if (movies && movies.length > 0) {
+      const filteredMovies = movies.filter(movie => movie.title.toLowerCase().indexOf(term.toLowerCase()) >= 0);
+      const moviesListDto: MoviesListDto = {
+        movies: filteredMovies,
+        response: "true",
+        total: movies.length.toString()
+      };
+
+      this.moviesListDto.next(moviesListDto);
+    } else {
+      this.moviesListDto.next({
+        response: "false",
+        movies: []
+      });
     }
   }
 

@@ -1,28 +1,71 @@
 # MrMateusZupMovies
 [![build status](https://github.com/thiagoaag/mr-mateus-zup-movies/workflows/Build/badge.svg)](https://github.com/thiagoaag/mr-mateus-zup-movies/actions)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.6.
+[ZupMovies](https://zup-movies.herokuapp.com/) é um site de busca de filmes com base no [IMDb](https://www.imdb.com/), tendo como principal framework o [Angular](https://angular.io/)! Experimente clicando [aqui](https://zup-movies.herokuapp.com/)
 
-## Development server
+## Começando
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+As instruções a seguir permitirão que você copie o projeto e rode em sua máquina local para desenvolvimento e testes.
 
-## Code scaffolding
+### Pré-requisitos
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Antes de iniciar verifique se você possui os programas instalados corretamente:
 
-## Build
+* [Node](https://nodejs.org/en/) > 10
+* [Git](https://git-scm.com/)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Recomendamos os seguintes pacotes globais `npm`:
 
-## Running unit tests
+* `@angular/cli`
+```
+npm i -g @angular/cli
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Instalação
 
-## Running end-to-end tests
+Siga os passos abaixo:
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+* Escolha um diretório de trabalho e inicie o terminal a partir deste diretório;
+* Efetue a cópia do projeto através do comando:
+```
+git clone https://github.com/mr-mateus/mr-mateus-zup-movies.git
+```
+* Acesse o diretório do projeto copiado e instale as dependências através da seguinte comando:
+```
+npm install
+```
 
-## Further help
+## Rodando os testes
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Alterações e melhorias só serão aceitas caso a validação `padrão do estilo do código`, `testes unitários` e `testes ponto a ponto automatizados` seja executada com sucesso.
+
+### Testes unitários
+
+Executar o comando
+
+```
+npm run test
+```
+
+### Testes ponto a ponto
+
+Testes que abrangem a utilização de funcionalidades da aplicação do começo ao fim
+
+```
+npm run e2e
+```
+
+### Padrão do estilo do código
+
+Garante a boa formatação do código do fonte para garantir uma boa leitura visual da implementação.
+
+```
+npm run lint
+```
+
+## Construido com:
+
+* [Angular](https://angular.io/) - Framework de desenvolvimento web e mobile
+* [Bootstrap](https://getbootstrap.com/docs/3.3) - Biblioteca de componentes HTML
+* [OMDb](http://www.omdbapi.com/) - API para consulta dos filmes registros na IMDb
+* [Npm](https://www.npmjs.com/) - Gerenciador de dependencias

@@ -1,20 +1,13 @@
 import { Injectable } from "@angular/core";
-import { Observable, of, Subject, BehaviorSubject } from "rxjs";
-import {
-  debounceTime,
-  distinctUntilChanged,
-  debounce,
-  takeUntil,
-  map,
-  finalize
-} from "rxjs/operators";
-import { OmdbService } from "src/app/core/omdb/omdb.service";
 import { FormControl } from "@angular/forms";
-import { MoviesListDto, MovieDto } from "./movies-list-dto";
-import { OMDbDto } from "src/app/core/omdb/omdb-dto";
-import { DeviceDetectorService } from "ngx-device-detector";
 import { Router } from "@angular/router";
-import { FavoriteMovieService } from 'src/app/core/favorite-movie/favorite-movie.service';
+import { DeviceDetectorService } from "ngx-device-detector";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { debounceTime, finalize, map, takeUntil } from "rxjs/operators";
+import { FavoriteMovieService } from "src/app/core/favorite-movie/favorite-movie.service";
+import { OMDbDto } from "src/app/core/omdb/omdb-dto";
+import { OmdbService } from "src/app/core/omdb/omdb.service";
+import { MovieDto, MoviesListDto } from "./movies-list-dto";
 
 @Injectable({
   providedIn: "root"
@@ -62,7 +55,7 @@ export class MoviesListService {
       .pipe(
         takeUntil(this.destroy$),
         map(omdbResponse => this.mapToMovieListDto(omdbResponse)),
-        finalize(() => this.isLoading = false)
+        finalize(() => (this.isLoading = false))
       )
       .subscribe(
         moviesListMapped => {
@@ -119,7 +112,9 @@ export class MoviesListService {
       } as MoviesListDto;
       const favoriteMovies = this.favoriteMovieService.searchAllFavoriteMovies();
       moviesListDto.movies.map(movie => {
-        const favoriteMovieFiltered = favoriteMovies.filter(filterMovie => filterMovie.imdbID === movie.imdbID);
+        const favoriteMovieFiltered = favoriteMovies.filter(
+          filterMovie => filterMovie.imdbID === movie.imdbID
+        );
         if (favoriteMovieFiltered && favoriteMovieFiltered.length > 0) {
           movie.favorite = true;
         }
@@ -136,14 +131,14 @@ export class MoviesListService {
     }
   }
 
-  deskTopNavigateToMovie(movie: MovieDto) {
+  desktopNavigateToMovie(movie: MovieDto) {
     if (this.isDesktop) {
-      this.router.navigate(["movies/details"]);
+      this.router.navigate([`movies/details`, movie.imdbID]);
     }
   }
 
   mobileNavigateToMovie(movie: MovieDto) {
-    this.router.navigate(["movies/details"]);
+    this.router.navigate([`movies/details`, movie.imdbID]);
   }
 
   addFavoriteMovie(movie: MovieDto) {

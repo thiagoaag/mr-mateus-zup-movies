@@ -240,23 +240,32 @@ describe("MoviesListService", () => {
   it("deve fazer a navegação para 'movies/details", () => {
     const router = TestBed.get(Router);
     const spyRouter = spyOn(router, "navigate").and.callFake(() => of({}));
-    service.deskTopNavigateToMovie(undefined);
-    expect(spyRouter).toHaveBeenCalledWith(["movies/details"]);
+    service.desktopNavigateToMovie({
+      imdbID: "1",
+      favorite: true
+    });
+    expect(spyRouter).toHaveBeenCalledWith(["movies/details", "1"]);
   });
 
   it("não deve fazer a navegação para 'movies/details", () => {
     const router = TestBed.get(Router);
     const spyRouter = spyOn(router, "navigate").and.callFake(() => of({}));
     service.isDesktop = false;
-    service.deskTopNavigateToMovie(undefined);
+    service.desktopNavigateToMovie({
+      imdbID: "1",
+      favorite: true
+    });
     expect(spyRouter).not.toHaveBeenCalled();
   });
 
   it("deve fazer a navegação para 'movies/details quando for mobile", () => {
     const router = TestBed.get(Router);
     const spyRouter = spyOn(router, "navigate").and.callFake(() => of({}));
-    service.mobileNavigateToMovie(undefined);
-    expect(spyRouter).toHaveBeenCalledWith(["movies/details"]);
+    service.mobileNavigateToMovie({
+      imdbID: '1',
+      favorite: true
+    });
+    expect(spyRouter).toHaveBeenCalledWith(["movies/details", 1]);
   });
 
   it("deve chamar o método para adicionar o filme favorito na lista", () => {
@@ -308,22 +317,26 @@ describe("MoviesListService", () => {
         Search: [
           {
             Title: "Filme de teste",
-            imdbID: '1'
+            imdbID: "1"
           }
         ]
       })
     );
 
-    const favoriteMovieService: FavoriteMovieService = TestBed.get(FavoriteMovieService);
+    const favoriteMovieService: FavoriteMovieService = TestBed.get(
+      FavoriteMovieService
+    );
     const moviesDto = [
       {
-        imdbID: '1',
+        imdbID: "1",
         favorite: true,
-        poster: 'Poster',
-        title: 'Filme de Teste'
+        poster: "Poster",
+        title: "Filme de Teste"
       }
     ] as Array<MovieDto>;
-    spyOn(favoriteMovieService, "searchAllFavoriteMovies").and.returnValue(moviesDto);
+    spyOn(favoriteMovieService, "searchAllFavoriteMovies").and.returnValue(
+      moviesDto
+    );
 
     service.initialize();
     tick();

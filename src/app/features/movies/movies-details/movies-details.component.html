@@ -1,1 +1,107 @@
-<p>movies-details works!</p>
+<div class="col-xs-1 col-sm-1 col-md-1"></div>
+<div class="col-xs-10 col-sm-10 col-md-10">
+  <div class="row logo">
+    <img src="assets\2.Logos\logo.png" alt="Logo What's in" />
+  </div>
+
+  <div class="row" *ngIf="service.movieDetailsDto$ | async as movieDetails">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <div
+        #mouseover
+        class="row back-arrow"
+        (click)="service.back()"
+        (mouseenter)="mouseover.value = true"
+        (mouseleave)="mouseover.value = false"
+      >
+        <img
+          *ngIf="!mouseover.value"
+          src="assets\1.Icons\icon-arrow-grey.svg"
+          alt="back arrow"
+        />
+        <img
+          *ngIf="mouseover.value"
+          src="assets\1.Icons\icon-arrow-white.svg"
+          alt="back arrow"
+        />
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-7 container-movie-informations">
+      <div class="essentials-information">
+        {{ movieDetails.runtime }} &middot; {{ movieDetails.year }} &middot;
+        <span class="rated">{{ movieDetails.rated }}</span>
+      </div>
+      <div class="title-information">
+        {{ movieDetails.title }}
+      </div>
+      <div  class="rating-information">
+        <a [href]="service.getImdbUrl()" target="_blank" class="imdb">
+          <div class="imdb-container-image">
+            <img src="assets/2.Logos/imdb.svg" alt="" />
+          </div>
+          <p>
+            {{service.getImdb()}}
+          </p>
+        </a>
+        <a [href]="service.getRottenTomatoes()" target="_blank" class="rotten-tomatoes">
+          <div class="rotten-tomatoes-container-image">
+            <img src="assets/2.Logos/logo-rotten-tomatoes.svg" alt="" />
+          </div>
+          <p>
+            {{service.getRoten()}}
+          </p>
+        </a>
+        <div class="button-favorite" (click)="service.favoriteMovie()">
+          <div class="button-favorite-container-image">
+            <img
+              *ngIf="!movieDetails?.favorite"
+              src="assets/1.Icons/icon-heart-grey.svg"
+              alt=""
+            />
+            <img
+              *ngIf="movieDetails?.favorite"
+              style="height:16px"
+              src="assets/1.Icons/icon-heart-full.svg"
+              alt=""
+            />
+          </div>
+          <p>
+            <span *ngIf="!movieDetails?.favorite">Add to favourites</span>
+            <span *ngIf="movieDetails?.favorite">Remove from favourites</span>
+          </p>
+        </div>
+      </div>
+      <div class="plot-information">
+        <h2>Plot</h2>
+        <p></p>
+        {{ movieDetails.plot }}
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 cast-information">
+        <h2>Cast</h2>
+        <div *ngFor="let actor of service.getCast()">
+          {{ actor }}
+        </div>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 genre-information">
+        <h2>Genre</h2>
+        <div *ngFor="let genre of service.getGenres()">
+          {{ genre }}
+        </div>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 director-information">
+        <h2>Director</h2>
+        <div *ngFor="let director of service.getDirectors()">
+          {{ director }}
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-5 poster-container">
+      <img
+        class="img-responsive"
+        style="border-radius: 3px;"
+        [src]="movieDetails?.poster"
+        [alt]="movieDetails.title"
+      />
+    </div>
+  </div>
+</div>
+<div class="col-xs-1 col-sm-1 col-md-1"></div>

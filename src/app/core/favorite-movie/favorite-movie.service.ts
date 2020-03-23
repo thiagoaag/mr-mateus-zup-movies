@@ -6,6 +6,18 @@ export class FavoriteMovieService {
   private FAVORITE_MOVIES_KEY_LOCAL_STORAGE = "favorite-movies";
   constructor() {}
 
+  searchByImdbId(imdbId: string): MovieDto {
+    const moviesString = localStorage.getItem(
+      this.FAVORITE_MOVIES_KEY_LOCAL_STORAGE
+    );
+    if (moviesString) {
+      const movies =  JSON.parse(moviesString) as Array<MovieDto>;
+      const moviesFilteres = movies.filter(movieFilter => movieFilter.imdbID === imdbId);
+      return moviesFilteres && moviesFilteres.length > 0 ? moviesFilteres[0] : undefined;
+    } else {
+      return undefined;
+    }
+  }
   searchAllFavoriteMovies(): Array<MovieDto> {
     const moviesString = localStorage.getItem(
       this.FAVORITE_MOVIES_KEY_LOCAL_STORAGE

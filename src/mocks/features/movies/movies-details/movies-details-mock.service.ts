@@ -39,6 +39,6 @@ export class MoviesDetailsMockService {
 
   getImdbUrl() {}
 
-  getRottenTomatoes() {}
+  getRottenTomatoesUrl() {}
   favoriteMovie() {}
 }

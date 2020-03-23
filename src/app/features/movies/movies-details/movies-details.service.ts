@@ -17,7 +17,6 @@ export class MoviesDetailsService {
     MoviesDetailDto
   > = new BehaviorSubject({});
   public movieDetailsDto$ = this.movieDetailsDto.asObservable();
-  private destroy$ = new Subject();
   constructor(
     private omdbService: OmdbService,
     private location: Location,
@@ -28,10 +27,6 @@ export class MoviesDetailsService {
     this.findById(id);
   }
 
-  destroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
 
   findById(id: string): void {
     this.isLoading = true;
@@ -39,35 +34,8 @@ export class MoviesDetailsService {
       .findById(id)
       .pipe(
         map((omdbResponse: OMDbMovieDto) => {
-          const movie = {
-            title: omdbResponse.Title,
-            year: omdbResponse.Year,
-            rated: omdbResponse.Rated,
-            released: omdbResponse.Released,
-            runtime: omdbResponse.Runtime,
-            genre: omdbResponse.Genre,
-            director: omdbResponse.Director,
-            writer: omdbResponse.Writer,
-            actors: omdbResponse.Actors,
-            plot: omdbResponse.Plot,
-            language: omdbResponse.Language,
-            country: omdbResponse.Country,
-            awards: omdbResponse.Awards,
-            poster: omdbResponse.Poster,
-            ratings: omdbResponse.Ratings.map(rating => ({
-              source: rating.Source,
-              value: rating.Value
-            })),
-            metascore: omdbResponse.Metascore,
-            imdbRating: omdbResponse.imdbRating,
-            imdbVotes: omdbResponse.imdbVotes,
-            imdbID: omdbResponse.imdbID,
-            type: omdbResponse.Type,
-            dvd: omdbResponse.DVD,
-            boxOffice: omdbResponse.BoxOffice,
-            production: omdbResponse.Production,
-            website: omdbResponse.Website
-          } as MoviesDetailDto;
+          const movie = this.mapToMoviesDetailDto(omdbResponse);
+
           const favoriteMovie = this.favoriteMovieService.searchByImdbId(
             omdbResponse.imdbID
           );
@@ -82,6 +50,41 @@ export class MoviesDetailsService {
       .subscribe(movieDetail => {
         this.movieDetailsDto.next(movieDetail);
       });
+  }
+
+  private mapToMoviesDetailDto(omdbResponse: OMDbMovieDto): MoviesDetailDto {
+    return  {
+      title: omdbResponse.Title,
+      year: omdbResponse.Year,
+      rated: omdbResponse.Rated,
+      released: omdbResponse.Released,
+      runtime: omdbResponse.Runtime,
+      genre: omdbResponse.Genre,
+      director: omdbResponse.Director,
+      writer: omdbResponse.Writer,
+      actors: omdbResponse.Actors,
+      plot: omdbResponse.Plot,
+      language: omdbResponse.Language,
+      country: omdbResponse.Country,
+      awards: omdbResponse.Awards,
+      poster: omdbResponse.Poster,
+      ratings:
+        omdbResponse.Ratings && omdbResponse.Ratings.length > 0
+          ? omdbResponse.Ratings.map(rating => ({
+              source: rating.Source,
+              value: rating.Value
+            }))
+          : undefined,
+      metascore: omdbResponse.Metascore,
+      imdbRating: omdbResponse.imdbRating,
+      imdbVotes: omdbResponse.imdbVotes,
+      imdbID: omdbResponse.imdbID,
+      type: omdbResponse.Type,
+      dvd: omdbResponse.DVD,
+      boxOffice: omdbResponse.BoxOffice,
+      production: omdbResponse.Production,
+      website: omdbResponse.Website
+    } as MoviesDetailDto;
   }
 
   getCast(): Array<string> {
@@ -105,11 +108,9 @@ export class MoviesDetailsService {
   private getRating(source: string) {
     const ratings = this.movieDetailsDto.getValue().ratings;
     if (ratings && ratings.length > 0) {
-      const imdbRating = ratings.filter(
-        rate => rate.source === source
-      );
-      if (imdbRating && imdbRating.length > 0) {
-        return imdbRating[0].value;
+      const ratingFiltered = ratings.filter(rate => rate.source === source);
+      if (ratingFiltered && ratingFiltered.length > 0) {
+        return ratingFiltered[0].value;
       } else {
         return "N/A";
       }
@@ -138,7 +139,7 @@ export class MoviesDetailsService {
     }
   }
 
-  getRottenTomatoes() {
+  getRottenTomatoesUrl() {
     if (this.movieDetailsDto.getValue().title) {
       const title = this.movieDetailsDto.getValue().title;
       return `https://www.rottentomatoes.com/search?search=${title}`;

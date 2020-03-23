@@ -262,10 +262,10 @@ describe("MoviesListService", () => {
     const router = TestBed.get(Router);
     const spyRouter = spyOn(router, "navigate").and.callFake(() => of({}));
     service.mobileNavigateToMovie({
-      imdbID: '1',
+      imdbID: "1",
       favorite: true
     });
-    expect(spyRouter).toHaveBeenCalledWith(["movies/details", '1']);
+    expect(spyRouter).toHaveBeenCalledWith(["movies/details", "1"]);
   });
 
   it("deve chamar o método para adicionar o filme favorito na lista", () => {
@@ -351,5 +351,19 @@ describe("MoviesListService", () => {
     expect(spyOmdbServiceSearch).toHaveBeenCalledWith("OPA", 1);
     expect(movieListDto.response).toEqual("true");
     expect(movieListDto.movies[0].favorite).toEqual(true);
+  }));
+
+  it("não deve fazer a busca quando o termo for vazio", fakeAsync(() => {
+    const omdbService: OmdbService = TestBed.get(OmdbService);
+    spyOn(omdbService, "searchFor");
+    let movieDto: MoviesListDto;
+    service.moviesListDto$.subscribe(response => {
+      movieDto = response;
+    });
+    service.search("", "1");
+    tick();
+    expect(omdbService.searchFor).not.toHaveBeenCalled();
+    expect(movieDto).toEqual({});
+
   }));
 });

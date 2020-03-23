@@ -19,7 +19,7 @@ export class MoviesListComponent implements OnInit, OnDestroy {
     this.service.initialize();
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
-    ).subscribe(event => {
+    ).subscribe(() => {
       this.service.search(this.service.searchText.value, 1);
     })
   }

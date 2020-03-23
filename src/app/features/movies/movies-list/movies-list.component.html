@@ -3,13 +3,20 @@
   <div class="row logo">
     <img src="assets\2.Logos\logo.png" alt="Logo What's in" />
   </div>
-  <div class="row search-box">
-    <input 
+  <div class="row search-box input-group">
+    <input
       type="search"
       class="form-control"
       [formControl]="service.searchText"
+      placeholder="Search movies..."
       autofocus
     />
+    <span (click)="service.activateFilterFavorites()" class="input-group-btn" style="background-color: #b93030;border-radius: 3px;cursor: pointer;">
+        <img *ngIf="!service.favoriteFiltersActivated" height="32px"
+          src="assets/1.Icons/icon-heart-white.svg"/>
+        <img *ngIf="service.favoriteFiltersActivated" height="32px"
+          src="assets/1.Icons/icon-heart-full.svg"/>
+    </span>
   </div>
   <div class="row" *ngIf="service.moviesListDto$ | async as moviesList">
     <div
@@ -26,13 +33,15 @@
       >
         <span class="glyphicon glyphicon-log-in"></span>
       </div>
-      <img *ngIf="movie.favorite"
+      <img
+        *ngIf="movie.favorite"
         [style.zIndex]="'100'"
         style="position: absolute;top:12px;right: 12px;"
         (click)="service.removeFavoriteMovie(movie)"
         src="assets/1.Icons/icon-heart-full.svg"
       />
-      <img *ngIf="!movie.favorite"
+      <img
+        *ngIf="!movie.favorite"
         [style.zIndex]="mouseover?.value ? '100' : '0'"
         style="position: absolute;top:12px;right: 12px;"
         (click)="service.addFavoriteMovie(movie)"
@@ -67,9 +76,9 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 show-more">
       <button
         *ngIf="moviesList?.movies?.length > 0"
-        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn btn-secondary"
+        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn btn-primary"
         (click)="service.showMore()"
-        [disabled]="!service.hasNext"
+        [disabled]="service.favoriteFiltersActivated || !service.hasNext"
       >
         Show More
       </button>
@@ -83,10 +92,7 @@
       <div *ngIf="moviesList.error">
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 no-padding"></div>
         <div class="visible-col-xs-4 col-sm-4 col-md-4 col-lg-4 no-padding">
-          <img
-            class=""
-            src="assets\2.Illustrations\illustrations-sorry.png"
-          />
+          <img class="" src="assets\2.Illustrations\illustrations-sorry.png" />
           <p style="font-size: 24px;color: #FFFFFF;">
             {{ moviesList.error }}
           </p>
@@ -119,7 +125,9 @@
       </div>
     </div>
   </div>
-  <ngx-loading [show]="service.isLoading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
-
+  <ngx-loading
+    [show]="service.isLoading"
+    [config]="{ backdropBorderRadius: '3px' }"
+  ></ngx-loading>
 </div>
 <div class="col-xs-1 col-sm-1 col-md-1"></div>

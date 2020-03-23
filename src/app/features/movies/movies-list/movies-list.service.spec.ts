@@ -363,7 +363,7 @@ describe("MoviesListService", () => {
     service.search("", "1");
     tick();
     expect(omdbService.searchFor).not.toHaveBeenCalled();
-    expect(movieDto).toEqual({});
+    expect(movieDto).toEqual({ response: 'false', movies: []});
 
   }));
 });

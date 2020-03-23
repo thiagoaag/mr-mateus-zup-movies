@@ -1,5 +1,11 @@
 # Change log
 
+# v1.6.0
+[22/03/2019]
+### [#25]((https://github.com/thiagoaag/mr-mateus-zup-movies/issues/25) 
+### Novas funcionalidade 
+ - Implementação da busca de favoritos
+ 
 # v1.5.0
 [22/03/2019]
 ### [#3]((https://github.com/thiagoaag/mr-mateus-zup-movies/issues/3) 
